@@ -1,5 +1,4 @@
 """Tests for AgentProfile Pydantic model."""
-
 import pytest
 from agentprofile.models import AgentProfile
 
@@ -18,6 +17,8 @@ def test_minimal_valid_profile():
     assert profile.tags == []
     assert profile.provider_options == {}
     assert profile.handoff_instructions is None
+    assert profile.provider is None
+    assert profile.output_schema is None
 
 
 def test_full_profile():
@@ -29,11 +30,26 @@ def test_full_profile():
         system_prompt="You are a coder.",
         skills=["file-management"],
         tags=["coding", "production"],
-        output_schema={"type": "object", "properties": {"result": {"type": "string"}}},
-        provider_options={"anthropic": {"thinking": {"type": "enabled", "budget_tokens": 4000}}},
         handoff_instructions="Coder has finished the task.",
+        provider="provider.json",
+        output_schema="output-schema.json",
     )
-    assert "anthropic" in profile.provider_options
+    assert profile.provider == "provider.json"
+    assert profile.output_schema == "output-schema.json"
+
+
+def test_provider_options_excluded_from_dump():
+    profile = AgentProfile(
+        name="test",
+        description="x",
+        model="ollama:llama3.2",
+        tools=[],
+        system_prompt="x",
+    )
+    profile.provider_options = {"anthropic": {"thinking": {"type": "enabled"}}}
+    dumped = profile.model_dump()
+    assert "provider_options" not in dumped  # excluded
+    assert dumped["name"] == "test"
 
 
 def test_name_rejects_special_chars():

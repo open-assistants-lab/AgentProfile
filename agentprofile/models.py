@@ -11,19 +11,28 @@ _NAME_RE = re.compile(r"^[a-zA-Z0-9_-]+$")
 
 
 class AgentProfile(BaseModel):
-    """Portable definition of an agent: identity, model, tools, instructions."""
+    """Portable agent definition: frontmatter metadata + body as system_prompt.
+
+    PROFILE.md format aligned with Agentskills.io SKILL.md conventions.
+    """
 
     version: int = Field(default=1, ge=1, le=1)
     name: str = Field(..., min_length=1, max_length=64)
     description: str = Field(..., min_length=1)
     model: str = Field(..., min_length=1)
     tools: list[str] = Field(default_factory=list)
-    system_prompt: str = Field(..., min_length=1)
+    system_prompt: str = Field(default="")
     skills: list[str] = Field(default_factory=list)
     tags: list[str] = Field(default_factory=list)
-    output_schema: dict[str, Any] | None = None
-    provider_options: dict[str, Any] = Field(default_factory=dict)
     handoff_instructions: str | None = None
+
+    # Pointers to companion files (same directory as PROFILE.md)
+    provider: str | None = None
+    output_schema: str | None = None
+
+    # Loaded from companion files, not serialized to frontmatter
+    provider_options: dict[str, Any] = Field(default_factory=dict, exclude=True)
+    output_schema_def: dict[str, Any] | None = Field(default=None, exclude=True)
 
     model_config = {"extra": "ignore"}
 
