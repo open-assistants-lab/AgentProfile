@@ -18,8 +18,8 @@ class AgentProfile(BaseModel):
 
     version: int = Field(default=1, ge=1, le=1)
     name: str = Field(..., min_length=1, max_length=64)
-    description: str = Field(..., min_length=1)
-    model: str = Field(..., min_length=1)
+    description: str = Field(default="")
+    model: str = Field(default="")
     tools: list[str] = Field(default_factory=list)
     system_prompt: str = Field(default="")
     skills: list[str] = Field(default_factory=list)
@@ -33,6 +33,11 @@ class AgentProfile(BaseModel):
     # Loaded from companion files, not serialized to frontmatter
     provider_options: dict[str, Any] = Field(default_factory=dict, exclude=True)
     output_schema_def: dict[str, Any] | None = Field(default=None, exclude=True)
+
+    # Runtime execution limits (harness-specific, optional)
+    max_llm_calls: int = 50
+    cost_limit_usd: float = 1.0
+    timeout_seconds: int = 300
 
     model_config = {"extra": "ignore"}
 
