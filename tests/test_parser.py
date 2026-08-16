@@ -84,6 +84,41 @@ Do things.
     }
 
 
+def test_loads_profile_preserves_version():
+    md_text = """---
+name: versioned
+version: 3
+description: Has a definition version
+model: openai:gpt-4o
+tools:
+  - time_get
+---
+
+Do things.
+"""
+    profile = loads_profile(md_text)
+    assert profile.version == 3
+
+
+def test_dumps_profile_roundtrip_preserves_version():
+    md_text = """---
+name: versioned
+version: 3
+description: Has a definition version
+model: openai:gpt-4o
+tools:
+  - time_get
+---
+
+Do things.
+"""
+    profile = loads_profile(md_text)
+    dumped = dumps_profile(profile)
+    assert "version: 3" in dumped
+    reloaded = loads_profile(dumped)
+    assert reloaded.version == 3
+
+
 def test_dumps_profile_roundtrip():
     md_text = """---
 name: roundtrip

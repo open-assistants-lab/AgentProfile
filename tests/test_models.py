@@ -74,16 +74,39 @@ def test_name_rejects_too_long():
         )
 
 
-def test_version_rejects_unknown():
+def test_version_accepts_bumped():
+    profile = AgentProfile(
+        version=2,
+        name="test",
+        description="x",
+        model="openai:gpt-4o",
+        tools=[],
+        system_prompt="x",
+    )
+    assert profile.version == 2
+
+
+def test_version_rejects_zero():
     with pytest.raises(ValueError):
         AgentProfile(
-            version=2,
+            version=0,
             name="test",
             description="x",
             model="openai:gpt-4o",
             tools=[],
             system_prompt="x",
         )
+
+
+def test_version_defaults_to_one():
+    profile = AgentProfile(
+        name="test",
+        description="x",
+        model="openai:gpt-4o",
+        tools=[],
+        system_prompt="x",
+    )
+    assert profile.version == 1
 
 
 def test_extra_fields_ignored():

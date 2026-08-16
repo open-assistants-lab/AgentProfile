@@ -16,7 +16,7 @@ class AgentProfile(BaseModel):
     PROFILE.md format aligned with Agentskills.io SKILL.md conventions.
     """
 
-    version: int = Field(default=1, ge=1, le=1)
+    version: int = Field(default=1, ge=1)
     name: str = Field(..., min_length=1, max_length=64)
     description: str = Field(default="")
     model: str = Field(default="")
@@ -46,11 +46,4 @@ class AgentProfile(BaseModel):
     def _validate_name(cls, v: str) -> str:
         if not _NAME_RE.match(v):
             raise ValueError(f"Invalid name: {v!r}. Must match {_NAME_RE.pattern}")
-        return v
-
-    @field_validator("version")
-    @classmethod
-    def _validate_version(cls, v: int) -> int:
-        if v != 1:
-            raise ValueError(f"Unsupported version: {v}. Only version 1 is supported.")
         return v
