@@ -1,12 +1,30 @@
 [project]
 name = "agentprofile"
-version = "0.2.0"
+version = "0.2.1"
 description = "Portable agent profile definition — schema and parser"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["agents", "ai", "llm", "profile", "skills", "yaml"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 requires-python = ">=3.11,<3.14"
 dependencies = [
     "pydantic>=2.0.0,<3.0.0",
     "pyyaml>=6.0,<7.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/open-assistants-lab/AgentProfile"
+Repository = "https://github.com/open-assistants-lab/AgentProfile"
+Issues = "https://github.com/open-assistants-lab/AgentProfile/issues"
 
 [build-system]
 requires = ["hatchling"]

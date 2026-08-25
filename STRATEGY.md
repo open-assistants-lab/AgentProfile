@@ -1,8 +1,10 @@
 # AgentProfile Strategy
 
+> **Status update (2025-08):** The factual claims below are partially outdated. AgentProfile is now published on PyPI (`agentprofile` 0.2.0, uploaded 2025-08-25), has a README + AGENTS.md, and a test suite (~450 lines incl. tests). It still has no CLI and no format converters. The strategic analysis and recommendation below remain as written.
+
 ## The honest truth
 
-AgentProfile is a 3-day-old, 169-line prototype with no README, no CLI, no PyPI package, no documentation, and no users. It competes in a space with:
+AgentProfile is a ~170-line library with no CLI, no format converters, and no users. It competes in a space with:
 
 - **Agent Format** (Snap-backed, v1.0, JSON Schema, multi-language SDKs, CLI, governance model, conformance program)
 - **Agent Definition Language** (Ironstead Group, enterprise governance, patent-pending, IETF roadmap)
